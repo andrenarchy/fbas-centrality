@@ -100,16 +100,6 @@ def quorum_subgraph_analyzer(nodes: List[Node], definitions: Definitions, node_n
     print_centralities(nodes, centralities.get_quorum_subgraph_centralities(nodes, definitions), node_names)
     print()
 
-def intactness_eigenvector_analyzer(get_ill_behaved_weight: Callable[[Nodes], float]):
-    def analyzer(nodes: List[Node], definitions: Definitions, node_names: Dict[Node, str]=None):
-        print()
-        print('intactness eigenvector analyzer')
-        print('---------------------------------')
-        print('centralities:')
-        print_centralities(nodes, centralities.get_intactness_eigenvector_centralities(nodes, definitions, get_ill_behaved_weight), node_names)
-        print()
-    return analyzer
-
 def intactness_ls_analyzer(get_ill_behaved_weight: Callable[[Nodes], float], get_mu: Callable[[numpy.array], float]):
     def analyzer(nodes: List[Node], definitions: Definitions, node_names: Dict[Node, str]=None):
         print()
@@ -120,16 +110,6 @@ def intactness_ls_analyzer(get_ill_behaved_weight: Callable[[Nodes], float], get
         print()
     return analyzer
 
-def hierarchical_intactness_eigenvector_analyzer(get_ill_behaved_weight: Callable[[Nodes], float]):
-    def analyzer(nodes: List[Node], definitions: Definitions, node_names: Dict[Node, str]=None):
-        print()
-        print('hierarchical intactness eigenvector analyzer')
-        print('----------------------------------------------')
-        print('centralities:')
-        print_centralities(nodes, centralities.get_hierarchical_intactness_eigenvector_centralities(nodes, definitions, get_ill_behaved_weight), node_names)
-        print()
-    return analyzer
-
 def hierarchical_intactness_ls_analyzer(get_ill_behaved_weight: Callable[[Nodes], float], get_mu: Callable[[numpy.array], float]):
     def analyzer(nodes: List[Node], definitions: Definitions, node_names: Dict[Node, str]=None):
         print()
@@ -137,26 +117,6 @@ def hierarchical_intactness_ls_analyzer(get_ill_behaved_weight: Callable[[Nodes]
         print('--------------------------------------')
         print('centralities:')
         print_centralities(nodes, centralities.get_hierarchical_intactness_ls_centralities(nodes, definitions, get_ill_behaved_weight, get_mu), node_names)
-        print()
-    return analyzer
-
-def minimal_intactness_eigenvector_analyzer(get_ill_behaved_weight: Callable[[Nodes], float]):
-    def analyzer(nodes: List[Node], definitions: Definitions, node_names: Dict[Node, str]=None):
-        print()
-        print('minimal intactness eigenvector analyzer')
-        print('-----------------------------------------')
-        print('centralities:')
-        print_centralities(nodes, centralities.get_minimal_intactness_eigenvector_centralities(nodes, definitions, get_ill_behaved_weight), node_names)
-        print()
-    return analyzer
-
-def minimal_intactness_ls_analyzer(get_ill_behaved_weight: Callable[[Nodes], float], get_mu: Callable[[numpy.array], float]):
-    def analyzer(nodes: List[Node], definitions: Definitions, node_names: Dict[Node, str]=None):
-        print()
-        print('minimal intactness ls analyzer')
-        print('---------------------------------')
-        print('centralities:')
-        print_centralities(nodes, centralities.get_minimal_intactness_ls_centralities(nodes, definitions, get_ill_behaved_weight, get_mu), node_names)
         print()
     return analyzer
 
@@ -313,8 +273,7 @@ examples: List[Example] = [
             quorum_eigenvector_analyzer,
             quorum_subgraph_analyzer,
             intactness_ls_analyzer(lambda ill_behaved_nodes: 1/2**len(ill_behaved_nodes), lambda M: 0.5 / numpy.linalg.norm(M, 2)),
-            hierarchical_intactness_ls_analyzer(lambda ill_behaved_nodes: 1/2**len(ill_behaved_nodes), lambda M: 0.5 / numpy.linalg.norm(M, 2)),
-            minimal_intactness_ls_analyzer(lambda ill_behaved_nodes: 1/2**len(ill_behaved_nodes), lambda M: 0.5 / numpy.linalg.norm(M, 2)),
+            hierarchical_intactness_ls_analyzer(lambda ill_behaved_nodes: 1/2**len(ill_behaved_nodes), lambda M: 0.5 / numpy.linalg.norm(M, 2))
         ]
     },
     {
@@ -351,8 +310,7 @@ examples: List[Example] = [
             quorum_eigenvector_analyzer,
             quorum_subgraph_analyzer,
             intactness_ls_analyzer(lambda ill_behaved_nodes: 1/2**len(ill_behaved_nodes), lambda M: 0.5 / numpy.linalg.norm(M, 2)),
-            hierarchical_intactness_ls_analyzer(lambda ill_behaved_nodes: 1/2**len(ill_behaved_nodes), lambda M: 0.5 / numpy.linalg.norm(M, 2)),
-            minimal_intactness_ls_analyzer(lambda ill_behaved_nodes: 1/2**len(ill_behaved_nodes), lambda M: 0.5 / numpy.linalg.norm(M, 2)),
+            hierarchical_intactness_ls_analyzer(lambda ill_behaved_nodes: 1/2**len(ill_behaved_nodes), lambda M: 0.5 / numpy.linalg.norm(M, 2))
         ]
     },
     {
@@ -387,10 +345,9 @@ examples: List[Example] = [
             quorum_analyzer,
             subgraph_analyzer,
             quorum_eigenvector_analyzer,
-            quorum_subgraph_analyzer,
+            # quorum_subgraph_analyzer,
             intactness_ls_analyzer(lambda ill_behaved_nodes: 1/2**len(ill_behaved_nodes), lambda M: 0.5 / numpy.linalg.norm(M, 2)),
-            hierarchical_intactness_ls_analyzer(lambda ill_behaved_nodes: 1/2**len(ill_behaved_nodes), lambda M: 0.5 / numpy.linalg.norm(M, 2)),
-            minimal_intactness_ls_analyzer(lambda ill_behaved_nodes: 1/2**len(ill_behaved_nodes), lambda M: 0.5 / numpy.linalg.norm(M, 2)),
+            hierarchical_intactness_ls_analyzer(lambda ill_behaved_nodes: 1/2**len(ill_behaved_nodes), lambda M: 0.5 / numpy.linalg.norm(M, 2))
         ]
     },
     {
@@ -425,10 +382,9 @@ examples: List[Example] = [
             quorum_analyzer,
             subgraph_analyzer,
             quorum_eigenvector_analyzer,
-            quorum_subgraph_analyzer,
+            # quorum_subgraph_analyzer,
             intactness_ls_analyzer(lambda ill_behaved_nodes: 1/2**len(ill_behaved_nodes), lambda M: 0.5 / numpy.linalg.norm(M, 2)),
-            hierarchical_intactness_ls_analyzer(lambda ill_behaved_nodes: 1/2**len(ill_behaved_nodes), lambda M: 0.5 / numpy.linalg.norm(M, 2)),
-            minimal_intactness_ls_analyzer(lambda ill_behaved_nodes: 1/2**len(ill_behaved_nodes), lambda M: 0.5 / numpy.linalg.norm(M, 2)),
+            hierarchical_intactness_ls_analyzer(lambda ill_behaved_nodes: 1/2**len(ill_behaved_nodes), lambda M: 0.5 / numpy.linalg.norm(M, 2))
         ]
     }
 ]
