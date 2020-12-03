@@ -1,11 +1,12 @@
+from typing import Callable, Dict, Generic, List, Set, TypeVar, TypedDict, Union
+import numpy
+
+from stellarobservatory import quorum_slice_definition, stellarbeat, centralities
 from stellarobservatory.quorum_intersection import quorum_intersection
 from stellarobservatory.dsets import enumerate_dsets
 from stellarobservatory.utils.scc import get_strongly_connected_components
 from stellarobservatory.quorums import enumerate_quorums
-import numpy
-from typing import Callable, Dict, Generic, List, Set, TypeVar, TypedDict, Union
-from stellarobservatory import quorum_slice_definition, stellarbeat, centralities
-from stellarobservatory.quorum_slice_definition import Definitions, get_is_slice_contained, get_normalized_definition, get_trust_graph
+from stellarobservatory.quorum_slice_definition import Definitions, get_is_slice_contained, get_normalized_definition, get_trust_graph, quorum_slices_to_definitions
 from stellarobservatory.utils.graph import Node, Nodes
 
 def get_from_seed_node(seed_node: str):
@@ -99,80 +100,63 @@ def quorum_subgraph_analyzer(nodes: List[Node], definitions: Definitions, node_n
     print_centralities(nodes, centralities.get_quorum_subgraph_centralities(nodes, definitions), node_names)
     print()
 
-
-def quorum_intersection_eigenvector_analyzer(nodes: List[Node], definitions: Definitions, node_names: Dict[Node, str]=None):
-    print()
-    print('quorum intersection eigenvector analyzer')
-    print('--------------------------------------')
-    print('centralities:')
-    print_centralities(nodes, centralities.get_quorum_intersection_eigenvector_centralities(nodes, definitions), node_names)
-    print()
-
-def quorum_intersection_subgraph_analyzer(nodes: List[Node], definitions: Definitions, node_names: Dict[Node, str]=None):
-    print()
-    print('quorum intersection subgraph analyzer')
-    print('-------------------------------------')
-    print('centralities:')
-    print_centralities(nodes, centralities.get_quorum_intersection_subgraph_centralities(nodes, definitions), node_names)
-    print()
-
-def befouledness_eigenvector_analyzer(get_ill_behaved_weight: Callable[[Nodes], float]):
+def intactness_eigenvector_analyzer(get_ill_behaved_weight: Callable[[Nodes], float]):
     def analyzer(nodes: List[Node], definitions: Definitions, node_names: Dict[Node, str]=None):
         print()
-        print('befouledness eigenvector analyzer')
+        print('intactness eigenvector analyzer')
         print('---------------------------------')
         print('centralities:')
-        print_centralities(nodes, centralities.get_befouledness_eigenvector_centralities(nodes, definitions, get_ill_behaved_weight), node_names)
+        print_centralities(nodes, centralities.get_intactness_eigenvector_centralities(nodes, definitions, get_ill_behaved_weight), node_names)
         print()
     return analyzer
 
-def befouledness_lgs_analyzer(get_ill_behaved_weight: Callable[[Nodes], float], get_mu: Callable[[numpy.array], float]):
+def intactness_ls_analyzer(get_ill_behaved_weight: Callable[[Nodes], float], get_mu: Callable[[numpy.array], float]):
     def analyzer(nodes: List[Node], definitions: Definitions, node_names: Dict[Node, str]=None):
         print()
-        print('befouledness lgs analyzer')
+        print('intactness ls analyzer')
         print('-------------------------')
         print('centralities:')
-        print_centralities(nodes, centralities.get_befouledness_lgs_centralities(nodes, definitions, get_ill_behaved_weight, get_mu), node_names)
+        print_centralities(nodes, centralities.get_intactness_ls_centralities(nodes, definitions, get_ill_behaved_weight, get_mu), node_names)
         print()
     return analyzer
 
-def hierarchical_befouledness_eigenvector_analyzer(get_ill_behaved_weight: Callable[[Nodes], float]):
+def hierarchical_intactness_eigenvector_analyzer(get_ill_behaved_weight: Callable[[Nodes], float]):
     def analyzer(nodes: List[Node], definitions: Definitions, node_names: Dict[Node, str]=None):
         print()
-        print('hierarchical befouledness eigenvector analyzer')
+        print('hierarchical intactness eigenvector analyzer')
         print('----------------------------------------------')
         print('centralities:')
-        print_centralities(nodes, centralities.get_hierarchical_befouledness_eigenvector_centralities(nodes, definitions, get_ill_behaved_weight), node_names)
+        print_centralities(nodes, centralities.get_hierarchical_intactness_eigenvector_centralities(nodes, definitions, get_ill_behaved_weight), node_names)
         print()
     return analyzer
 
-def hierarchical_befouledness_lgs_analyzer(get_ill_behaved_weight: Callable[[Nodes], float], get_mu: Callable[[numpy.array], float]):
+def hierarchical_intactness_ls_analyzer(get_ill_behaved_weight: Callable[[Nodes], float], get_mu: Callable[[numpy.array], float]):
     def analyzer(nodes: List[Node], definitions: Definitions, node_names: Dict[Node, str]=None):
         print()
-        print('hierarchical befouledness lgs analyzer')
+        print('hierarchical intactness ls analyzer')
         print('--------------------------------------')
         print('centralities:')
-        print_centralities(nodes, centralities.get_hierarchical_befouledness_lgs_centralities(nodes, definitions, get_ill_behaved_weight, get_mu), node_names)
+        print_centralities(nodes, centralities.get_hierarchical_intactness_ls_centralities(nodes, definitions, get_ill_behaved_weight, get_mu), node_names)
         print()
     return analyzer
 
-def minimal_befouledness_eigenvector_analyzer(get_ill_behaved_weight: Callable[[Nodes], float]):
+def minimal_intactness_eigenvector_analyzer(get_ill_behaved_weight: Callable[[Nodes], float]):
     def analyzer(nodes: List[Node], definitions: Definitions, node_names: Dict[Node, str]=None):
         print()
-        print('minimal befouledness eigenvector analyzer')
+        print('minimal intactness eigenvector analyzer')
         print('-----------------------------------------')
         print('centralities:')
-        print_centralities(nodes, centralities.get_minimal_befouledness_eigenvector_centralities(nodes, definitions, get_ill_behaved_weight), node_names)
+        print_centralities(nodes, centralities.get_minimal_intactness_eigenvector_centralities(nodes, definitions, get_ill_behaved_weight), node_names)
         print()
     return analyzer
 
-def minimal_befouledness_lgs_analyzer(get_ill_behaved_weight: Callable[[Nodes], float], get_mu: Callable[[numpy.array], float]):
+def minimal_intactness_ls_analyzer(get_ill_behaved_weight: Callable[[Nodes], float], get_mu: Callable[[numpy.array], float]):
     def analyzer(nodes: List[Node], definitions: Definitions, node_names: Dict[Node, str]=None):
         print()
-        print('minimal befouledness lgs analyzer')
+        print('minimal intactness ls analyzer')
         print('---------------------------------')
         print('centralities:')
-        print_centralities(nodes, centralities.get_minimal_befouledness_lgs_centralities(nodes, definitions, get_ill_behaved_weight, get_mu), node_names)
+        print_centralities(nodes, centralities.get_minimal_intactness_ls_centralities(nodes, definitions, get_ill_behaved_weight, get_mu), node_names)
         print()
     return analyzer
 
@@ -187,62 +171,13 @@ class Example(Generic[Node], TypedDict):
 satoshipay_de_fra = 'GC5SXLNAM3C4NMGK2PXK4R34B5GNZ47FYQ24ZIBFDFOCU6D4KBN4POAE'
 stellar_network = get_from_seed_node(satoshipay_de_fra)
 
-def slices_to_definitions(slices_by_node: Dict[Node, List[Nodes]]):
-    return {
-        node: quorum_slice_definition.quorum_slices_to_definition(quorum_slices)
-        for node, quorum_slices in slices_by_node.items()
-    }
 
 examples: List[Example] = [
-    {
-      'name': 'ex:1scc',
-      'nodes': list(range(1,6)),
-      'node_names': None,
-      'quorum_slice_definitions': slices_to_definitions({
-            1: [{1,2}, {1,3}, {1,4}, {1,5}],
-            2: [{1,2}, {2,3}],
-            3: [{1,3}],
-            4: [{1,4}],
-            5: [{1,5}]
-      }),
-      'analyzers': [
-            scc_analyzer,
-            quorum_analyzer,
-            eigenvector_analyzer,
-            subgraph_analyzer,
-            quorum_eigenvector_analyzer,
-            quorum_subgraph_analyzer,
-            befouledness_lgs_analyzer(lambda ill_behaved_nodes: 1/2**len(ill_behaved_nodes), lambda M: 0.5 / numpy.linalg.norm(M, 2)),
-            hierarchical_befouledness_lgs_analyzer(lambda ill_behaved_nodes: 1/2**len(ill_behaved_nodes), lambda M: 0.5 / numpy.linalg.norm(M, 2)),
-      ]
-    },
-    {
-      'name': 'ex:1scc-mod',
-      'nodes': list(range(1,6)),
-      'node_names': None,
-      'quorum_slice_definitions': slices_to_definitions({
-            1: [{1,2}, {1,3}, {1,4}, {1,5}],
-            2: [{1,2, 3}],
-            3: [{1,3}],
-            4: [{1,4}],
-            5: [{1,5}]
-      }),
-      'analyzers': [
-            scc_analyzer,
-            quorum_analyzer,
-            eigenvector_analyzer,
-            subgraph_analyzer,
-            quorum_eigenvector_analyzer,
-            quorum_subgraph_analyzer,
-            befouledness_lgs_analyzer(lambda ill_behaved_nodes: 1/2**len(ill_behaved_nodes), lambda M: 0.5 / numpy.linalg.norm(M, 2)),
-            hierarchical_befouledness_lgs_analyzer(lambda ill_behaved_nodes: 1/2**len(ill_behaved_nodes), lambda M: 0.5 / numpy.linalg.norm(M, 2)),
-      ]
-    },
     {
       'name': 'ex:FBAS_fig7',
       'nodes': list(range(1,8)),
       'node_names': None,
-      'quorum_slice_definitions': slices_to_definitions({
+      'quorum_slice_definitions': quorum_slices_to_definitions({
             1: [{1,2,3,7}],
             2: [{1,2,3,7}],
             3: [{1,2,3,7}],
@@ -257,15 +192,15 @@ examples: List[Example] = [
             subgraph_analyzer,
             quorum_eigenvector_analyzer,
             quorum_subgraph_analyzer,
-            befouledness_lgs_analyzer(lambda ill_behaved_nodes: 1/2**len(ill_behaved_nodes), lambda M: 0.5 / numpy.linalg.norm(M, 2)),
-            hierarchical_befouledness_lgs_analyzer(lambda ill_behaved_nodes: 1/2**len(ill_behaved_nodes), lambda M: 0.5 / numpy.linalg.norm(M, 2)),
+            intactness_ls_analyzer(lambda ill_behaved_nodes: 1/2**len(ill_behaved_nodes), lambda M: 0.5 / numpy.linalg.norm(M, 2)),
+            hierarchical_intactness_ls_analyzer(lambda ill_behaved_nodes: 1/2**len(ill_behaved_nodes), lambda M: 0.5 / numpy.linalg.norm(M, 2)),
       ]
     },
     {
       'name': 'ex:FBAS_fig7-mod',
       'nodes': list(range(1,9)),
       'node_names': None,
-      'quorum_slice_definitions': slices_to_definitions({
+      'quorum_slice_definitions': quorum_slices_to_definitions({
             1: [{1,2,3,7}],
             2: [{1,2,3,7}],
             3: [{1,2,3,7}],
@@ -281,8 +216,52 @@ examples: List[Example] = [
             subgraph_analyzer,
             quorum_eigenvector_analyzer,
             quorum_subgraph_analyzer,
-            befouledness_lgs_analyzer(lambda ill_behaved_nodes: 1/2**len(ill_behaved_nodes), lambda M: 0.5 / numpy.linalg.norm(M, 2)),
-            hierarchical_befouledness_lgs_analyzer(lambda ill_behaved_nodes: 1/2**len(ill_behaved_nodes), lambda M: 0.5 / numpy.linalg.norm(M, 2)),
+            intactness_ls_analyzer(lambda ill_behaved_nodes: 1/2**len(ill_behaved_nodes), lambda M: 0.5 / numpy.linalg.norm(M, 2)),
+            hierarchical_intactness_ls_analyzer(lambda ill_behaved_nodes: 1/2**len(ill_behaved_nodes), lambda M: 0.5 / numpy.linalg.norm(M, 2)),
+      ]
+    },
+    {
+      'name': 'ex:1scc',
+      'nodes': list(range(1,6)),
+      'node_names': None,
+      'quorum_slice_definitions': quorum_slices_to_definitions({
+            1: [{1,2}, {1,3}, {1,4}, {1,5}],
+            2: [{1,2}, {2,3}],
+            3: [{1,3}],
+            4: [{1,4}],
+            5: [{1,5}]
+      }),
+      'analyzers': [
+            scc_analyzer,
+            quorum_analyzer,
+            eigenvector_analyzer,
+            subgraph_analyzer,
+            quorum_eigenvector_analyzer,
+            quorum_subgraph_analyzer,
+            intactness_ls_analyzer(lambda ill_behaved_nodes: 1/2**len(ill_behaved_nodes), lambda M: 0.5 / numpy.linalg.norm(M, 2)),
+            hierarchical_intactness_ls_analyzer(lambda ill_behaved_nodes: 1/2**len(ill_behaved_nodes), lambda M: 0.5 / numpy.linalg.norm(M, 2)),
+      ]
+    },
+    {
+      'name': 'ex:1scc-mod',
+      'nodes': list(range(1,6)),
+      'node_names': None,
+      'quorum_slice_definitions': quorum_slices_to_definitions({
+            1: [{1,2}, {1,3}, {1,4}, {1,5}],
+            2: [{1,2, 3}],
+            3: [{1,3}],
+            4: [{1,4}],
+            5: [{1,5}]
+      }),
+      'analyzers': [
+            scc_analyzer,
+            quorum_analyzer,
+            eigenvector_analyzer,
+            subgraph_analyzer,
+            quorum_eigenvector_analyzer,
+            quorum_subgraph_analyzer,
+            intactness_ls_analyzer(lambda ill_behaved_nodes: 1/2**len(ill_behaved_nodes), lambda M: 0.5 / numpy.linalg.norm(M, 2)),
+            hierarchical_intactness_ls_analyzer(lambda ill_behaved_nodes: 1/2**len(ill_behaved_nodes), lambda M: 0.5 / numpy.linalg.norm(M, 2)),
       ]
     },
     {
@@ -333,9 +312,9 @@ examples: List[Example] = [
             subgraph_analyzer,
             quorum_eigenvector_analyzer,
             quorum_subgraph_analyzer,
-            befouledness_lgs_analyzer(lambda ill_behaved_nodes: 1/2**len(ill_behaved_nodes), lambda M: 0.5 / numpy.linalg.norm(M, 2)),
-            hierarchical_befouledness_lgs_analyzer(lambda ill_behaved_nodes: 1/2**len(ill_behaved_nodes), lambda M: 0.5 / numpy.linalg.norm(M, 2)),
-            minimal_befouledness_lgs_analyzer(lambda ill_behaved_nodes: 1/2**len(ill_behaved_nodes), lambda M: 0.5 / numpy.linalg.norm(M, 2)),
+            intactness_ls_analyzer(lambda ill_behaved_nodes: 1/2**len(ill_behaved_nodes), lambda M: 0.5 / numpy.linalg.norm(M, 2)),
+            hierarchical_intactness_ls_analyzer(lambda ill_behaved_nodes: 1/2**len(ill_behaved_nodes), lambda M: 0.5 / numpy.linalg.norm(M, 2)),
+            minimal_intactness_ls_analyzer(lambda ill_behaved_nodes: 1/2**len(ill_behaved_nodes), lambda M: 0.5 / numpy.linalg.norm(M, 2)),
         ]
     },
     {
@@ -371,9 +350,9 @@ examples: List[Example] = [
             subgraph_analyzer,
             quorum_eigenvector_analyzer,
             quorum_subgraph_analyzer,
-            befouledness_lgs_analyzer(lambda ill_behaved_nodes: 1/2**len(ill_behaved_nodes), lambda M: 0.5 / numpy.linalg.norm(M, 2)),
-            hierarchical_befouledness_lgs_analyzer(lambda ill_behaved_nodes: 1/2**len(ill_behaved_nodes), lambda M: 0.5 / numpy.linalg.norm(M, 2)),
-            minimal_befouledness_lgs_analyzer(lambda ill_behaved_nodes: 1/2**len(ill_behaved_nodes), lambda M: 0.5 / numpy.linalg.norm(M, 2)),
+            intactness_ls_analyzer(lambda ill_behaved_nodes: 1/2**len(ill_behaved_nodes), lambda M: 0.5 / numpy.linalg.norm(M, 2)),
+            hierarchical_intactness_ls_analyzer(lambda ill_behaved_nodes: 1/2**len(ill_behaved_nodes), lambda M: 0.5 / numpy.linalg.norm(M, 2)),
+            minimal_intactness_ls_analyzer(lambda ill_behaved_nodes: 1/2**len(ill_behaved_nodes), lambda M: 0.5 / numpy.linalg.norm(M, 2)),
         ]
     },
     {
@@ -409,9 +388,9 @@ examples: List[Example] = [
             subgraph_analyzer,
             quorum_eigenvector_analyzer,
             quorum_subgraph_analyzer,
-            befouledness_lgs_analyzer(lambda ill_behaved_nodes: 1/2**len(ill_behaved_nodes), lambda M: 0.5 / numpy.linalg.norm(M, 2)),
-            hierarchical_befouledness_lgs_analyzer(lambda ill_behaved_nodes: 1/2**len(ill_behaved_nodes), lambda M: 0.5 / numpy.linalg.norm(M, 2)),
-            minimal_befouledness_lgs_analyzer(lambda ill_behaved_nodes: 1/2**len(ill_behaved_nodes), lambda M: 0.5 / numpy.linalg.norm(M, 2)),
+            intactness_ls_analyzer(lambda ill_behaved_nodes: 1/2**len(ill_behaved_nodes), lambda M: 0.5 / numpy.linalg.norm(M, 2)),
+            hierarchical_intactness_ls_analyzer(lambda ill_behaved_nodes: 1/2**len(ill_behaved_nodes), lambda M: 0.5 / numpy.linalg.norm(M, 2)),
+            minimal_intactness_ls_analyzer(lambda ill_behaved_nodes: 1/2**len(ill_behaved_nodes), lambda M: 0.5 / numpy.linalg.norm(M, 2)),
         ]
     },
     {
@@ -447,17 +426,10 @@ examples: List[Example] = [
             subgraph_analyzer,
             quorum_eigenvector_analyzer,
             quorum_subgraph_analyzer,
-            befouledness_lgs_analyzer(lambda ill_behaved_nodes: 1/2**len(ill_behaved_nodes), lambda M: 0.5 / numpy.linalg.norm(M, 2)),
-            hierarchical_befouledness_lgs_analyzer(lambda ill_behaved_nodes: 1/2**len(ill_behaved_nodes), lambda M: 0.5 / numpy.linalg.norm(M, 2)),
-            minimal_befouledness_lgs_analyzer(lambda ill_behaved_nodes: 1/2**len(ill_behaved_nodes), lambda M: 0.5 / numpy.linalg.norm(M, 2)),
+            intactness_ls_analyzer(lambda ill_behaved_nodes: 1/2**len(ill_behaved_nodes), lambda M: 0.5 / numpy.linalg.norm(M, 2)),
+            hierarchical_intactness_ls_analyzer(lambda ill_behaved_nodes: 1/2**len(ill_behaved_nodes), lambda M: 0.5 / numpy.linalg.norm(M, 2)),
+            minimal_intactness_ls_analyzer(lambda ill_behaved_nodes: 1/2**len(ill_behaved_nodes), lambda M: 0.5 / numpy.linalg.norm(M, 2)),
         ]
-    },
-    {
-      'name': 'Stellar Network',
-      'nodes': list(stellar_network[0]),
-      'node_names': stellar_network[2],
-      'quorum_slice_definitions': stellar_network[1],
-      'analyzers': [eigenvector_analyzer, subgraph_analyzer]
     }
 ]
 
