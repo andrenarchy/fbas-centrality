@@ -345,7 +345,7 @@ examples: List[Example] = [
             quorum_analyzer,
             subgraph_analyzer,
             quorum_eigenvector_analyzer,
-            # quorum_subgraph_analyzer,
+            quorum_subgraph_analyzer,
             intactness_ls_analyzer(lambda ill_behaved_nodes: 1/2**len(ill_behaved_nodes), lambda M: 0.5 / numpy.linalg.norm(M, 2)),
             hierarchical_intactness_ls_analyzer(lambda ill_behaved_nodes: 1/2**len(ill_behaved_nodes), lambda M: 0.5 / numpy.linalg.norm(M, 2))
         ]
@@ -382,7 +382,7 @@ examples: List[Example] = [
             quorum_analyzer,
             subgraph_analyzer,
             quorum_eigenvector_analyzer,
-            # quorum_subgraph_analyzer,
+            quorum_subgraph_analyzer,
             intactness_ls_analyzer(lambda ill_behaved_nodes: 1/2**len(ill_behaved_nodes), lambda M: 0.5 / numpy.linalg.norm(M, 2)),
             hierarchical_intactness_ls_analyzer(lambda ill_behaved_nodes: 1/2**len(ill_behaved_nodes), lambda M: 0.5 / numpy.linalg.norm(M, 2))
         ]

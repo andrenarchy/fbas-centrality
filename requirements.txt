@@ -1,1 +1,1 @@
-stellar-observatory~=1.0
+stellar-observatory~=1.0.1
